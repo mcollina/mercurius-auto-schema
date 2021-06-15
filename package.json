@@ -1,0 +1,39 @@
+{
+  "name": "mercurius-auto-schema",
+  "version": "0.0.1",
+  "description": "Automatically generate a GraphQL endpoint from routes",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard && tap test/*test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mcollina/mercurius-auto-schema.git"
+  },
+  "keywords": [
+    "fastify",
+    "mercurius",
+    "schema",
+    "openapi",
+    "graphql",
+    "routes",
+    "route"
+  ],
+  "author": "Matteo Collina <hello@matteocollina.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mcollina/mercurius-auto-schema/issues"
+  },
+  "homepage": "https://github.com/mcollina/mercurius-auto-schema#readme",
+  "dependencies": {
+    "fastify-plugin": "^3.0.0",
+    "fastify-swagger": "^4.7.0",
+    "mercurius": "^7.9.0",
+    "openapi-to-graphql": "^2.3.0"
+  },
+  "devDependencies": {
+    "fastify": "^3.17.0",
+    "standard": "^16.0.3",
+    "tap": "^15.0.9"
+  }
+}
