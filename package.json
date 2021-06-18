@@ -29,10 +29,12 @@
     "fastify-plugin": "^3.0.0",
     "fastify-swagger": "^4.7.0",
     "mercurius": "^7.9.0",
-    "openapi-to-graphql": "^2.3.0"
+    "openapi-graphql": "^1.0.0",
+    "qs": "^6.10.1"
   },
   "devDependencies": {
     "fastify": "^3.17.0",
+    "husky": "^6.0.0",
     "standard": "^16.0.3",
     "tap": "^15.0.9"
   }
