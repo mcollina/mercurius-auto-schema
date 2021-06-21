@@ -16,8 +16,6 @@ module.exports = fp(async function (app, opts) {
 
   app.addHook('onReady', async function () {
     const def = app.swagger()
-    // TODO update fastify-swagger to add operationId
-    // def.paths["/some-route/{id}"].put.operationId = 'aaa'
 
     const { schema } = await createGraphQLSchema(def, {
       async httpRequest (opts) {

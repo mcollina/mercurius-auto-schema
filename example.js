@@ -57,10 +57,9 @@ fastify.put('/some-route/:id', {
   }
 }, (req, reply) => { reply.send({ hello: `Hello ${req.body.hello}` }) })
 
-/*
-fastify.get('/abcd/:id', {
+fastify.get('/user/:id', {
   schema: {
-    description: 'get some data',
+    description: 'get a user',
     params: {
       type: 'object',
       properties: {
@@ -75,13 +74,50 @@ fastify.get('/abcd/:id', {
         description: 'Succesful response',
         type: 'object',
         properties: {
-          hello: { type: 'string' }
+          name: { type: 'string' },
+          companyId: { type: 'string' }
+        }
+      }
+    }
+  },
+  links: {
+    201: {
+      company: {
+        operationId: 'getCompany',
+        parameters: {
+          id: '$request.path.id'
         }
       }
     }
   }
 }, () => 'hello world')
 
+fastify.get('/company/:id', {
+  schema: {
+    operationId: 'getCompany',
+    description: 'get a company',
+    params: {
+      type: 'object',
+      properties: {
+        id: {
+          type: 'string',
+          description: 'company id'
+        }
+      }
+    },
+    response: {
+      201: {
+        description: 'Succesful response',
+        type: 'object',
+        properties: {
+          name: { type: 'string' }
+        }
+      }
+    }
+  }
+}, () => 'hello world')
+
+/*
 fastify.post('/some-route/:id', {
   schema: {
     description: 'post some data',
