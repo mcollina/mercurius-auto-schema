@@ -217,6 +217,123 @@ input ObjInput {
 }
 ```
 
+### Authorization headers & JWT support
+
+If your application requires authenticating with JWT using a bearer token scheme,
+you could specify a few options to create a smoother transformation.
+(If you are curious to what happens without these options, take a look at https://github.com/mcollina/openapi-graphql#authentication).
+
+```js
+'use strict'
+
+const fastify = require('fastify')
+const auto = require('mercurius-auto-schema')
+const JWT = require('fastify-jwt')
+
+async function run () {
+  const app = fastify({ logger: { level: 'error' } })
+
+  app.register(JWT, {
+    secret: 'CHANGEME!!'
+  })
+
+  app.register(auto, {
+    definitions: {
+      openapi: {
+        info: {
+          title: 'Test swagger',
+          description: 'testing the fastify swagger api',
+          version: '0.1.0'
+        },
+        components: {
+          securitySchemes: {
+            bearerAuth: {
+              type: 'http',
+              scheme: 'bearer',
+              format: 'JWT'
+            }
+          }
+        }
+      }
+    },
+
+    // Disable the auth-wrapping objects
+    viewer: false,
+
+    // You can use customizeHttpRequest to add other headers as well, e.g. OpenTelemetry.
+    customizeHttpRequest (opts, context) {
+      opts.headers.authorization = context.reply.request.headers.authorization
+      return opts
+    }
+  })
+
+  app.get('/user/:id', {
+    schema: {
+      operationId: 'user',
+      description: 'get a user',
+      params: {
+        type: 'object',
+        properties: {
+          id: {
+            type: 'string',
+            description: 'user id'
+          }
+        }
+      },
+      response: {
+        200: {
+          description: 'Succesful response',
+          type: 'object',
+          properties: {
+            name: { type: 'string' },
+            companyId: { type: 'string' }
+          }
+        }
+      },
+      security: [
+        { bearerAuth: [] }
+      ]
+    }
+  }, async (req) => {
+    await req.jwtVerify()
+    equal(req.user.name, 'foobar', 'jwt parsed correctly')
+    equal(req.params.id, 'foo42', 'user id matches')
+
+    return {
+      companyId: 42,
+      name: 'foo'
+    }
+  })
+
+  await app.ready()
+
+  {
+    const query = 'query { user (id: "foo42") { name, companyId } }'
+
+    const res = await app.inject({
+      method: 'POST',
+      url: '/graphql',
+      headers: {
+        Authorization: `Bearer ${app.jwt.sign({ name: 'foobar' })}`
+      },
+      body: {
+        query
+      }
+    })
+
+    console.log(res.json())
+    // {
+    //  data: {
+    //    user: {
+    //      name: 'foo',
+    //      companyId: 42
+    //    }
+    //  }
+    // }
+  }
+})
+```
+
 ## License
 
 MIT
