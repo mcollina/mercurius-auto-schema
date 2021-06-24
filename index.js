@@ -14,11 +14,17 @@ module.exports = fp(async function (app, opts) {
   })
   app.register(swagger, opts.definitions)
 
+  const { customizeHttpRequest } = opts
+
   app.addHook('onReady', async function () {
     const def = app.swagger()
 
     const { schema } = await createGraphQLSchema(def, {
-      async httpRequest (opts) {
+      viewer: opts.viewer,
+      async httpRequest (opts, context) {
+        if (typeof customizeHttpRequest === 'function') {
+          opts = await customizeHttpRequest(opts, context)
+        }
         const res = await app.inject({
           path: opts.url + '?' + qs.stringify(opts.qs),
           headers: opts.headers,
