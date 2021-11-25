@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "fastify": "^3.17.0",
-    "fastify-jwt": "^3.0.0",
+    "fastify-jwt": "^4.0.0",
     "husky": "^7.0.0",
     "standard": "^16.0.3",
     "tap": "^15.0.9"
