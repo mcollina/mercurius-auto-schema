@@ -28,8 +28,8 @@
   "dependencies": {
     "fastify-plugin": "^3.0.0",
     "fastify-swagger": "^4.7.0",
-    "mercurius": "^8.0.0",
-    "openapi-graphql": "^1.0.0",
+    "mercurius": "^9.0.0",
+    "openapi-graphql": "^2.0.0",
     "qs": "^6.10.1"
   },
   "devDependencies": {
