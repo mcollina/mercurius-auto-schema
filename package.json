@@ -27,7 +27,7 @@
   "homepage": "https://github.com/mcollina/mercurius-auto-schema#readme",
   "dependencies": {
     "fastify-plugin": "^3.0.0",
-    "fastify-swagger": "^4.7.0",
+    "fastify-swagger": "^5.0.0",
     "mercurius": "^9.0.0",
     "openapi-graphql": "^2.0.0",
     "qs": "^6.10.1"
